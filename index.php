@@ -1,4 +1,8 @@
 <?php
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 // Sistema de Autoloading Nativo (PSR-0 simplificado)
 spl_autoload_register(function ($class) {
     $dirs = ['Model', 'Controller', 'View'];

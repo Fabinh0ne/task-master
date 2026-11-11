@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <!-- ... (Mantenham a tag <head> e o CSS antigo aqui) ... -->
