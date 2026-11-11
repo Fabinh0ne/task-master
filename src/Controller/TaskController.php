@@ -1,33 +1,50 @@
 <?php
+require_once __DIR__ . '/../Model/Task.php';
+
 class TaskController {
     private $model;
 
-    public function __construct(PDO $pdo) {
-        $this->model = new Task($pdo); // Controller instancia o Model
+    public function __construct() {
+        $this->model = new Task();
     }
 
     public function index($error = null) {
         $tasks = $this->model->getAll();
-        require __DIR__ . '/../View/list.php'; // Envia para a View
+        require __DIR__ . '/../View/list.php';
     }
 
     public function create() {
-        try {
-            $this->model->save($_POST['title'], $_POST['description'], $_POST['due_date']);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $title = trim($_POST['title'] ?? '');
+            $description = trim($_POST['description'] ?? '');
+            $dueDate = trim($_POST['due_date'] ?? '');
+            $assignedTo = trim($_POST['assigned_to'] ?? '');
+
+            if (empty($title) || empty($dueDate) || empty($assignedTo)) {
+                $error = "O título, a data de vencimento e o responsável são obrigatórios!";
+                $this->index($error);
+                return;
+            }
+
+            $this->model->create($title, $description, $dueDate, $assignedTo);
             header("Location: index.php");
-        } catch (Exception $e) {
-            $this->index($e->getMessage()); // Mostra o erro na tela
+            exit;
         }
     }
 
     public function complete() {
-        $this->model->complete($_GET['id']);
+        if (isset($_GET['id'])) {
+            $this->model->markAsComplete((int)$_GET['id']);
+        }
         header("Location: index.php");
+        exit;
     }
 
     public function delete() {
-        $this->model->delete($_GET['id']);
+        if (isset($_GET['id'])) {
+            $this->model->delete((int)$_GET['id']);
+        }
         header("Location: index.php");
+        exit;
     }
 }
-?>
