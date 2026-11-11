@@ -15,3 +15,4 @@ class TaskModelTest extends TestCase {
     }
 }
 ?>
+.
