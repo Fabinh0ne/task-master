@@ -26,7 +26,12 @@ $presenter = new TaskPresenter($model, $view);
 $action = $_GET['action'] ?? 'index';
 
 if ($action === 'create') {
-    $presenter->create($_POST['title'] ?? '', $_POST['description'] ?? '', $_POST['due_date'] ?? '');
+    $presenter->create(
+        $_POST['title'] ?? '', 
+        $_POST['description'] ?? '', 
+        $_POST['due_date'] ?? '', 
+        $_POST['assigned_to'] ?? ''
+    );
 } elseif ($action === 'complete') {
     $presenter->complete($_GET['id']);
 } elseif ($action === 'delete') {

@@ -8,6 +8,11 @@ class Task {
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
+    public function save($title, $description, $dueDate, $assignedTo) {
+    $stmt = $this->pdo->prepare("INSERT INTO tasks (title, description, due_date, assigned_to, done) VALUES (?, ?, ?, ?, 0)");
+    $stmt->execute([$title, $description, $dueDate, $assignedTo]);
+}
+
     public function getAll() {
         $stmt = $this->pdo->query("SELECT * FROM tasks ORDER BY id DESC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

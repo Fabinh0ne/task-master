@@ -12,13 +12,13 @@ class TaskPresenter {
     public function index() {
         try {
             $tasks = $this->model->getAll();
-           
+            
             // Lógica de Formatação da Apresentação (Apenas no MVP)
             foreach ($tasks as &$task) {
                 $task['title'] = strtoupper($task['title']);
             }
-           
-            // O Presenter manda a View exibir as tarefas [cite: 215]
+            
+            // O Presenter manda a View exibir as tarefas
             $this->view->displayTasks($tasks);
         } catch (Exception $e) {
             // Em caso de erro, manda a View exibir o erro
@@ -26,9 +26,9 @@ class TaskPresenter {
         }
     }
 
-    public function create($title, $description, $dueDate) {
+    public function create($title, $description, $dueDate, $assignedTo) {
         try {
-            $this->model->save($title, $description, $dueDate);
+            $this->model->save($title, $description, $dueDate, $assignedTo);
             header("Location: index.php");
         } catch (Exception $e) {
             $this->view->showError($e->getMessage());
@@ -45,3 +45,4 @@ class TaskPresenter {
         header("Location: index.php");
     }
 }
+?>
